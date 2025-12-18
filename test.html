@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Random Dashboard | 2025</title>
+    <style>
+        /* CSS: Styling and Layout */
+        :root {
+            --primary-bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-color: #38bdf8;
+            --text-color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 40px 20px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1, h2 {
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        #quote-display {
+            font-style: italic;
+            font-size: 1.2rem;
+            text-align: center;
+            min-height: 60px;
+        }
+
+        .color-box-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .color-swatch {
+            height: 80px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .log-section {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            background: #000;
+            padding: 15px;
+            height: 150px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #22c55e;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header class="glass-card">
+            <h1>Interactive Hub <span id="current-year">2025</span></h1>
+            <p style="text-align: center;">A demonstration of CSS Glassmorphism and JavaScript DOM manipulation.</p>
+            <div style="text-align: center;">
+                <span class="status-badge">System Online</span>
+            </div>
+        </header>
+
+        <!-- Quote Generator Section -->
+        <section class="glass-card">
+            <h2>Random Inspiration</h2>
+            <p id="quote-display">Click the button to generate a random thought...</p>
+            <div class="controls">
+                <button onclick="generateQuote()">New Quote</button>
+            </div>
+        </section>
+
+        <!-- Color Generator Section -->
+        <section class="glass-card">
+            <h2>Palette Generator</h2>
+            <div class="color-box-container" id="palette">
+                <!-- Colors will be injected here -->
+            </div>
+            <div class="controls" style="margin-top: 20px;">
+                <button onclick="generatePalette()">Refresh Palette</button>
+                <button onclick="resetBackground()" style="background: #64748b; color: white;">Reset Background</button>
+            </div>
+        </section>
+
+        <!-- Activity Log -->
+        <section class="glass-card">
+            <h2>Activity Log</h2>
+            <div class="log-section" id="activity-log">
+                [10:53:00] System initialized for 2025...<br>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        /* JavaScript: Logic and Interactivity */
+
+        // 1. Random Quotes Array
+        const quotes = [
+            "The best way to predict the future is to create it.",
+            "Complexity is your enemy. Any fool can make something complicated.",
+            "Code is like humor. When you have to explain it, it’s bad.",
+            "Simplicity is the soul of efficiency.",
+            "The only way to do great work is to love what you do.",
+            "Modern problems require modern code solutions."
+        ];
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote-display').innerText = `"${quotes[randomIndex]}"`;
+            addToLog("Generated new quote.");
+        }
+
+        // 2. Color Palette Generator
+        function generatePalette() {
+            const paletteContainer = document.getElementById('palette');
+            paletteContainer.innerHTML = ''; // Clear previous
+            
+            for (let i = 0; i < 4; i++) {
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.backgroundColor = randomColor;
+                swatch.innerText = randomColor.toUpperCase();
+                
+                // Clicking a swatch changes the page background
+                swatch.onclick = function() {
+                    document.body.style.backgroundColor = randomColor;
+                    addToLog(`Background changed to ${randomColor}`);
+                };
+
+                paletteContainer.appendChild(swatch);
+            }
+            addToLog("New color palette generated.");
+        }
+
+        function resetBackground() {
+            document.body.style.backgroundColor = '#0f172a';
+            addToLog("Background reset to default.");
+        }
+
+        // 3. Activity Logger
+        function addToLog(message) {
+            const log = document.getElementById('activity-log');
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                            now.getMinutes().toString().padStart(2, '0') + ":" + 
+                            now.getSeconds().toString().padStart(2, '0');
+            
+            log.innerHTML += `[${timeStr}] ${message}<br>`;
+            log.scrollTop = log.scrollHeight; // Auto-scroll to bottom
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            generatePalette();
+            generateQuote();
+        };
+    </script>
+
+</body>
+</html>
