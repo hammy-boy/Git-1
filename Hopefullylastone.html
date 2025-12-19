@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Productivity Hub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 500px;
+    }
+    #progressBar {
+      width: 100%;
+      background: #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    #progressFill {
+      height: 20px;
+      width: 0%;
+      background: #4caf50;
+      transition: width 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 Productivity Hub</h1>
+
+  <div class="card">
+    <h2>Task Progress</h2>
+    <input id="taskCount" type="number" placeholder="Total tasks">
+    <input id="doneCount" type="number" placeholder="Completed tasks">
+    <button onclick="updateProgress()">Update</button>
+    <div id="progressBar"><div id="progressFill"></div></div>
+    <p id="progressText"></p>
+  </div>
+
+  <div class="card">
+    <h2>Pomodoro Timer</h2>
+    <button onclick="startPomodoro()">Start 25‑min Focus</button>
+    <p id="pomodoroDisplay"></p>
+  </div>
+
+  <div class="card">
+    <h2>Productivity Tip</h2>
+    <p id="tipText"></p>
+    <button onclick="newTip()">New Tip</button>
+  </div>
+
+  <div class="card">
+    <h2>Quick Calculator</h2>
+    <input id="calcInput" placeholder="e.g. 2+2*3">
+    <button onclick="calculate()">Calculate</button>
+    <p id="calcResult"></p>
+  </div>
+
+  <div class="card">
+    <h2>Random Project Idea</h2>
+    <p id="ideaText"></p>
+    <button onclick="newIdea()">New Idea</button>
+  </div>
+
+<script>
+  // Progress Bar
+  function updateProgress() {
+    const total = parseInt(document.getElementById('taskCount').value);
+    const done = parseInt(document.getElementById('doneCount').value);
+    if(total > 0) {
+      const percent = Math.min(100, Math.round((done/total)*100));
+      document.getElementById('progressFill').style.width = percent + "%";
+      document.getElementById('progressText').textContent = percent + "% complete";
+    }
+  }
+
+  // Pomodoro Timer
+  let pomodoro;
+  function startPomodoro() {
+    clearInterval(pomodoro);
+    let time = 25*60;
+    pomodoro = setInterval(() => {
+      if(time <= 0) {
+        clearInterval(pomodoro);
+        document.getElementById('pomodoroDisplay').textContent = "✅ Session complete!";
+      } else {
+        const mins = Math.floor(time/60);
+        const secs = time % 60;
+        document.getElementById('pomodoroDisplay').textContent = `${mins}:${secs.toString().padStart(2,'0')}`;
+        time--;
+      }
+    }, 1000);
+  }
+
+  // Productivity Tips
+  const tips = [
+    "Break big tasks into smaller steps.",
+    "Use the Pomodoro technique for focus.",
+    "Prioritize tasks with the Eisenhower Matrix.",
+    "Eliminate distractions before starting work."
+  ];
+  function newTip() {
+    document.getElementById('tipText').textContent =
+      tips[Math.floor(Math.random()*tips.length)];
+  }
+  newTip();
+
+  // Calculator
+  function calculate() {
+    try {
+      const result = eval(document.getElementById('calcInput').value);
+      document.getElementById('calcResult').textContent = "Result: " + result;
+    } catch {
+      document.getElementById('calcResult').textContent = "Invalid expression";
+    }
+  }
+
+  // Project Ideas
+  const ideas = [
+    "Build a personal finance tracker.",
+    "Create a habit‑tracking app.",
+    "Design a portfolio website.",
+    "Develop a simple game in JavaScript."
+  ];
+  function newIdea() {
+    document.getElementById('ideaText').textContent =
+      ideas[Math.floor(Math.random()*ideas.length)];
+  }
+  newIdea();
+</script>
+</body>
+</html>
+
+<nav style="margin-bottom: 20px;">
+  <a href="index.html">Home</a> |
+  <a href="test.html">Test Dashboard</a> |
+  <a href="e.g.html">Example Page</a> |
+  <a href="Cool.html">Cool Stuff</a> |
+  <a href="Another.html">Another Page</a> |
+  <a href="Hopefullylastone.html">Last One</a>
+</nav>
+
+<img src="download.jpeg" alt="Main image">
+<img src="download (1).jpeg" alt="Alt image 1">
+<img src="images.jpeg" alt="Gallery image">
+<img src="img/sample.jpg" alt="From img folder">

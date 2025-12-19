@@ -223,7 +223,135 @@
             generateQuote();
         };
     </script>
+    <div class="card" id="mood">
+  <h2>Mood Tracker</h2>
+  <button onclick="setMood('😊 Happy')">😊 Happy</button>
+  <button onclick="setMood('😌 Calm')">😌 Calm</button>
+  <button onclick="setMood('😟 Stressed')">😟 Stressed</button>
+  <p id="moodLog"></p>
+</div>
+
+<div class="card" id="quiz">
+  <h2>Trivia Quiz</h2>
+  <p id="quizQuestion"></p>
+  <div id="quizOptions"></div>
+</div>
+
+<div class="card" id="todo">
+  <h2>Todo List</h2>
+  <input id="taskInput" placeholder="New task">
+  <button onclick="addTask()">Add</button>
+  <ul id="taskList"></ul>
+</div>
+
+<div class="card" id="joke">
+  <h2>Random Joke</h2>
+  <p id="jokeText">Click for a laugh!</p>
+  <button onclick="newJoke()">New Joke</button>
+</div>
+
+<div class="card" id="image">
+  <h2>Inspirational Image</h2>
+  <img id="inspImg" width="300">
+  <button onclick="newImage()">New Image</button>
+</div>
+
+<div class="card" id="timer">
+  <h2>Countdown Timer</h2>
+  <input id="minutes" type="number" placeholder="Minutes">
+  <button onclick="startTimer()">Start</button>
+  <p id="timerDisplay"></p>
+</div>
+
+<script>
+  // Mood Tracker
+  function setMood(mood) {
+    document.getElementById('moodLog').textContent = "Current mood: " + mood;
+  }
+
+  // Trivia Quiz
+  const quizData = {
+    question: "Which planet is known as the Red Planet?",
+    options: ["Earth", "Mars", "Jupiter"],
+    answer: "Mars"
+  };
+  document.getElementById('quizQuestion').textContent = quizData.question;
+  document.getElementById('quizOptions').innerHTML = quizData.options.map(opt =>
+    `<button onclick="checkAnswer('${opt}')">${opt}</button>`
+  ).join(" ");
+  function checkAnswer(opt) {
+    alert(opt === quizData.answer ? "Correct!" : "Try again!");
+  }
+
+  // Todo List
+  function addTask() {
+    const task = document.getElementById('taskInput').value;
+    if(task) {
+      const li = document.createElement('li');
+      li.textContent = task;
+      li.onclick = () => li.style.textDecoration = "line-through";
+      document.getElementById('taskList').appendChild(li);
+      document.getElementById('taskInput').value = "";
+    }
+  }
+
+  // Joke Generator
+  const jokes = [
+    "Why don’t programmers like nature? Too many bugs.",
+    "I told my computer I needed a break, and it said 'No problem — I’ll go to sleep.'",
+    "Debugging: Removing the needles from the haystack."
+  ];
+  function newJoke() {
+    document.getElementById('jokeText').textContent =
+      jokes[Math.floor(Math.random()*jokes.length)];
+  }
+
+  // Inspirational Image
+  const images = [
+    "https://source.unsplash.com/300x200/?nature",
+    "https://source.unsplash.com/300x200/?sky",
+    "https://source.unsplash.com/300x200/?mountain"
+  ];
+  function newImage() {
+    document.getElementById('inspImg').src =
+      images[Math.floor(Math.random()*images.length)];
+  }
+  newImage();
+
+  // Countdown Timer
+  let timer;
+  function startTimer() {
+    clearInterval(timer);
+    let time = parseInt(document.getElementById('minutes').value) * 60;
+    timer = setInterval(() => {
+      if(time <= 0) {
+        clearInterval(timer);
+        document.getElementById('timerDisplay').textContent = "Time's up!";
+      } else {
+        const mins = Math.floor(time/60);
+        const secs = time % 60;
+        document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
+        time--;
+      }
+    }, 1000);
+  }
+</script>
+
 
 </body>
 </html>
 <a href="e.g.html" target="_blank">If you want to see another webpage, click here</a>
+
+<nav style="margin-bottom: 20px;">
+  <a href="index.html">Home</a> |
+  <a href="test.html">Test Dashboard</a> |
+  <a href="e.g.html">Example Page</a> |
+  <a href="Cool.html">Cool Stuff</a> |
+  <a href="Another.html">Another Page</a> |
+  <a href="Hopefullylastone.html">Last One</a>
+</nav>
+
+<img src="download.jpeg" alt="Main image">
+<img src="download (1).jpeg" alt="Alt image 1">
+<img src="images.jpeg" alt="Gallery image">
+<img src="img/sample.jpg" alt="From img folder">

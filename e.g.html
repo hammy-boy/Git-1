@@ -1,81 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Quote Generator</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        #quoteDisplay {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-        #authorDisplay {
-            font-size: 1em;
-            font-weight: bold;
-            color: #555;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 1em;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Random Inspiration Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: linear-gradient(270deg, #62BEEC, #FC93D1, #A9F44E, #0F239B);
+      background-size: 800% 800%;
+      animation: gradientShift 20s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% {background-position:0% 50%}
+      50% {background-position:100% 50%}
+      100% {background-position:0% 50%}
+    }
+    .card {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px;
+    }
+    #notes {
+      width: 100%;
+      height: 100px;
+    }
+  </style>
 </head>
 <body>
+  <h1>🌟 Random Inspiration Dashboard</h1>
 
-    <div class="container">
-        <h1>Random Quote Generator</h1>
-        <div id="quoteDisplay"></div>
-        <div id="authorDisplay"></div>
-        <button onclick="generateQuote()">New Quote</button>
-    </div>
+  <div class="card" id="clock"></div>
 
-    <script>
-        const quotes = [
-            { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-            { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
-            { quote: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
-            { quote: "Do not wait to lead; lead where you stand.", author: "The Internet" }
-        ];
+  <div class="card" id="quote">
+    <h2>Quote Generator</h2>
+    <p id="quoteText">Click for inspiration!</p>
+    <button onclick="newQuote()">New Quote</button>
+  </div>
 
-        function generateQuote() {
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            const randomQuote = quotes[randomIndex];
-            document.getElementById('quoteDisplay').innerHTML = `"${randomQuote.quote}"`;
-            document.getElementById('authorDisplay').innerHTML = `- ${randomQuote.author}`;
-        }
+  <div class="card" id="palette">
+    <h2>Palette Generator</h2>
+    <div id="colors"></div>
+    <button onclick="newPalette()">New Palette</button>
+  </div>
 
-        // Generate a quote on page load
-        generateQuote();
-    </script>
+  <div class="card" id="challenge">
+    <h2>Daily Challenge</h2>
+    <p id="challengeText"></p>
+  </div>
 
+  <div class="card" id="weather">
+    <h2>Weather Widget</h2>
+    <p id="weatherText">Loading...</p>
+  </div>
+
+  <div class="card" id="music">
+    <h2>Music Player</h2>
+    <iframe style="border-radius:12px" 
+      src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator" 
+      width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+  </div>
+
+  <div class="card" id="notesCard">
+    <h2>Your Notes</h2>
+    <textarea id="notes"></textarea><br>
+    <button onclick="saveNotes()">Save Notes</button>
+    <p id="savedMsg"></p>
+  </div>
+
+<script>
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toLocaleTimeString() + " | " + now.toLocaleDateString();
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Quotes
+  const quotes = [
+    "Complexity is your enemy. Any fool can make something complicated.",
+    "Simplicity is the ultimate sophistication.",
+    "Do one thing every day that scares you.",
+    "Stay hungry, stay foolish."
+  ];
+  function newQuote() {
+    const q = quotes[Math.floor(Math.random()*quotes.length)];
+    document.getElementById('quoteText').textContent = q;
+  }
+
+  // Palette
+  function newPalette() {
+    const colors = [];
+    for (let i=0; i<4; i++) {
+      colors.push('#'+Math.floor(Math.random()*16777215).toString(16));
+    }
+    document.getElementById('colors').innerHTML = colors.map(c =>
+      `<div style="display:inline-block;width:50px;height:50px;background:${c};margin:5px"></div> ${c}`
+    ).join('<br>');
+  }
+  newPalette();
+
+  // Daily Challenge
+  const challenges = [
+    "Write down 3 things you're grateful for.",
+    "Take a 10-minute walk outside.",
+    "Read 5 pages of a book.",
+    "Compliment someone today."
+  ];
+  document.getElementById('challengeText').textContent =
+    challenges[Math.floor(Math.random()*challenges.length)];
+
+  // Weather (using Open-Meteo API for free, no key needed)
+  fetch("https://api.open-meteo.com/v1/forecast?latitude=9.0&longitude=7.5&current_weather=true")
+    .then(res => res.json())
+    .then(data => {
+      const w = data.current_weather;
+      document.getElementById('weatherText').textContent =
+        `Temp: ${w.temperature}°C | Windspeed: ${w.windspeed} km/h`;
+    })
+    .catch(() => document.getElementById('weatherText').textContent = "Weather unavailable");
+
+  // Notes
+  function saveNotes() {
+    const notes = document.getElementById('notes').value;
+    localStorage.setItem('userNotes', notes);
+    document.getElementById('savedMsg').textContent = "Notes saved!";
+  }
+  window.onload = () => {
+    const saved = localStorage.getItem('userNotes');
+    if (saved) document.getElementById('notes').value = saved;
+  }
+</script>
 </body>
-</html>
-<a href="test.html" target="_blank">If you want to see another webpage, click here</a>
+
+<nav style="margin-bottom: 20px;">
+  <a href="index.html">Home</a> |
+  <a href="test.html">Test Dashboard</a> |
+  <a href="e.g.html">Example Page</a> |
+  <a href="Cool.html">Cool Stuff</a> |
+  <a href="Another.html">Another Page</a> |
+  <a href="Hopefullylastone.html">Last One</a>
+</nav>
+<img src="download.jpeg" alt="Main image">
+<img src="download (1).jpeg" alt="Alt image 1">
+<img src="images.jpeg" alt="Gallery image">
+<img src="img/sample.jpg" alt="From img folder">
+

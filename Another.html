@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wellness Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      max-width: 500px;
+    }
+    #breathCircle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      margin: 20px auto;
+      animation: breathe 8s infinite;
+    }
+    @keyframes breathe {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.5); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 Wellness Dashboard</h1>
+
+  <div class="card">
+    <h2>Breathing Exercise</h2>
+    <div id="breathCircle"></div>
+    <p>Follow the circle: inhale as it grows, exhale as it shrinks.</p>
+  </div>
+
+  <div class="card">
+    <h2>Motivational Tip</h2>
+    <p id="tipText"></p>
+    <button onclick="newTip()">New Tip</button>
+  </div>
+
+  <div class="card">
+    <h2>Word Scramble Game</h2>
+    <p id="scrambleWord"></p>
+    <input id="guess" placeholder="Your guess">
+    <button onclick="checkWord()">Submit</button>
+    <p id="result"></p>
+  </div>
+
+  <div class="card">
+    <h2>Dice Roller 🎲</h2>
+    <button onclick="rollDice()">Roll Dice</button>
+    <p id="diceResult"></p>
+  </div>
+
+  <div class="card">
+    <h2>Today's Date</h2>
+    <p id="todayDate"></p>
+  </div>
+
+<script>
+  // Motivational Tips
+  const tips = [
+    "Take a deep breath and reset.",
+    "Small steps lead to big changes.",
+    "You are stronger than you think.",
+    "Focus on progress, not perfection."
+  ];
+  function newTip() {
+    document.getElementById('tipText').textContent =
+      tips[Math.floor(Math.random()*tips.length)];
+  }
+  newTip();
+
+  // Word Scramble
+  const words = ["peace", "focus", "energy", "calm"];
+  let currentWord = words[Math.floor(Math.random()*words.length)];
+  let scrambled = currentWord.split('').sort(() => 0.5 - Math.random()).join('');
+  document.getElementById('scrambleWord').textContent = scrambled;
+  function checkWord() {
+    const guess = document.getElementById('guess').value;
+    document.getElementById('result').textContent =
+      guess === currentWord ? "✅ Correct!" : "❌ Try again!";
+  }
+
+  // Dice Roller
+  function rollDice() {
+    const roll = Math.floor(Math.random()*6)+1;
+    document.getElementById('diceResult').textContent = "You rolled: " + roll;
+  }
+
+  // Today's Date
+  const today = new Date();
+  document.getElementById('todayDate').textContent =
+    today.toDateString();
+</script>
+</body>
+</html>
+
+<nav style="margin-bottom: 20px;">
+  <a href="index.html">Home</a> |
+  <a href="test.html">Test Dashboard</a> |
+  <a href="e.g.html">Example Page</a> |
+  <a href="Cool.html">Cool Stuff</a> |
+  <a href="Another.html">Another Page</a> |
+  <a href="Hopefullylastone.html">Last One</a>
+</nav>
+
+<img src="download.jpeg" alt="Main image">
+<img src="download (1).jpeg" alt="Alt image 1">
+<img src="images.jpeg" alt="Gallery image">
+<img src="img/sample.jpg" alt="From img folder">
+
